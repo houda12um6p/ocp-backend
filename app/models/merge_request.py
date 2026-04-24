@@ -26,13 +26,13 @@ class MergeRequest(Base):
     author_id = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False)
     jira_task_id = Column(String(36), ForeignKey("jira_tasks.id"), nullable=True)
-    # Fixed -> now uses MergeRequestStatus enum instead of plain String
+    #  now uses MergeRequestStatus enum instead of plain String
     status = Column(Enum(MergeRequestStatus), nullable=False)
     score = Column(Float, default=0.0)
     story_points = Column(Integer, default=0)
     # Lines that were refactored in this MR — used as linear penalty Lr in scoring formula
     refactored_lines = Column(Integer, default=0)
-    # Total lines changed (additions + deletions) — represents L in the scoring formula
+    # Total lines changed (additions + deletions) represents L in the scoring formula
     lines_modified = Column(Integer, default=0)
     # Added defaults so records can be created without passing timestamps explicitly
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)

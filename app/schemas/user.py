@@ -24,7 +24,6 @@ class UserUpdate(BaseModel):
     total_score: Optional[float] = None
 
 class UserResponse(UserBase):
-    id: str  # stored as String(36) in SQLite
     total_score: float
     created_at: datetime
 

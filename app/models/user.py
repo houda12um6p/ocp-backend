@@ -19,10 +19,7 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     role = Column(Enum(UserRole), nullable=False, default=UserRole.DEVELOPER)
     total_score = Column(Float, default=0.0)
-    # Added default so records can be created without passing a timestamp explicitly
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    # passive_deletes   =True: let the DB handle SET NULL via ondelete on the FK side,
-    # instead of SQLAlchemy nullifying children in Python before deleting the User
     merge_requests = relationship("MergeRequest", back_populates="author", passive_deletes=True)
     commits = relationship("Commit", back_populates="author", passive_deletes=True)
     review_comments = relationship("ReviewComment", back_populates="author", passive_deletes=True)

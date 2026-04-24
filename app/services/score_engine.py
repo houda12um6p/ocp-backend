@@ -4,16 +4,6 @@ Scoring engine for merge requests and developers.
 Formula (optimized):
     Score = 1000 × e^(-0.07 × max(0, Xnorm - Δ))
 
-Where:
-    X     = sum of severity_weight of all review comments on the MR
-            (suggestion=0, minor=1, correctness bug=3, critical=5)
-    L     = lines_modified on the MR (additions + deletions)
-    Xnorm = X / sqrt(1 + L)   — normalizes by PR size so large PRs
-                                  aren't penalized just for being big
-    Δ     = story_points from the linked JiraTask (0 if none)
-            — complexity allowance: harder tasks get more free severity
-    k     = 0.07              — harshness constant
-                                (every 10 excess normalized points ≈ score halved)
 """
 
 import math
@@ -35,10 +25,10 @@ def calculate_mr_score(mr_id: str, db: Session) -> float:
 
     Steps:
       1. Load the MR (404 if missing)
-      2. X     — sum of severity_weight across all review comments
-      3. L     — total lines modified in this MR
-      4. Xnorm — normalize X by PR size so large PRs aren't penalized unfairly
-      5. delta — story-point allowance from the linked Jira task
+      2. X     sum of severity_weight across all review comments
+      3. L     total lines modified in this MR
+      4. Xnorm normalize X by PR size so large PRs aren't penalized unfairly
+      5. delta  story-point allowance from the linked Jira task
       6. Apply the formula and round to 2 decimal places
       7. Persist the new score and return it
     """
@@ -49,7 +39,7 @@ def calculate_mr_score(mr_id: str, db: Session) -> float:
             detail=f"MergeRequest {mr_id} not found",
         )
 
-    # X — raw severity load (suggestions=0 contribute nothing)
+    # X raw severity load (suggestions=0 contribute nothing)
     comments = (
         db.query(ReviewComment)
         .filter(ReviewComment.merge_request_id == mr_id)
@@ -57,14 +47,14 @@ def calculate_mr_score(mr_id: str, db: Session) -> float:
     )
     X = sum(c.severity_weight for c in comments)
 
-    # L — total lines changed in this PR (additions + deletions)
+    # L total lines changed in this PR (additions + deletions)
     L = mr.lines_modified or 0
 
-    # Xnorm — size-normalized severity: larger PRs naturally have more comments,
+    # Xnorm size-normalized severity: larger PRs naturally have more comments,
     # so we divide by sqrt(1 + L) to keep the scale fair
     Xnorm = X / math.sqrt(1 + L)
 
-    # delta — complexity allowance from the linked Jira task;
+    # delta complexity allowance from the linked Jira task;
     # more story points = harder task = more free severity before penalty kicks in
     delta = mr.jira_task.story_points if mr.jira_task else 0
 
@@ -82,9 +72,6 @@ def calculate_mr_score(mr_id: str, db: Session) -> float:
 def calculate_developer_score(user_id: str, db: Session) -> float:
     """
     Sum all MR scores for a developer and save to User.total_score.
-
-    Note: this reads the already-saved MR scores, it does NOT recalculate
-    individual MRs. Call calculate_mr_score first if you want fresh values.
     """
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
