@@ -17,7 +17,6 @@ Where:
 """
 
 import math
-import uuid
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -30,7 +29,7 @@ from ..models.user import User
 k: float = 0.07
 
 
-def calculate_mr_score(mr_id: uuid.UUID, db: Session) -> float:
+def calculate_mr_score(mr_id: str, db: Session) -> float:
     """
     Calculate and save the score for one MergeRequest.
 
@@ -80,7 +79,7 @@ def calculate_mr_score(mr_id: uuid.UUID, db: Session) -> float:
     return score
 
 
-def calculate_developer_score(user_id: uuid.UUID, db: Session) -> float:
+def calculate_developer_score(user_id: str, db: Session) -> float:
     """
     Sum all MR scores for a developer and save to User.total_score.
 
@@ -109,7 +108,7 @@ def calculate_developer_score(user_id: uuid.UUID, db: Session) -> float:
     return total
 
 
-def calculate_project_score(project_id: uuid.UUID, db: Session) -> float:
+def calculate_project_score(project_id: str, db: Session) -> float:
     """
     Recalculate every MR score in a project, then every developer total.
     Returns the sum of all MR scores (project-level total).

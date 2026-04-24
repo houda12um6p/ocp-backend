@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
-import uuid
 
 from ..core.database import get_db
 from ..core.dependencies import get_current_user
@@ -39,11 +38,10 @@ def create_project(
 
 @router.get("/{project_id}", response_model=ProjectResponse)
 def get_project(
-    project_id: uuid.UUID,
+    project_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    
     project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Project not found")
@@ -52,11 +50,10 @@ def get_project(
 
 @router.get("/{project_id}/alerts", response_model=List[AlertResponse])
 def get_project_alerts(
-    project_id: uuid.UUID,
+    project_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    
     project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Project not found")

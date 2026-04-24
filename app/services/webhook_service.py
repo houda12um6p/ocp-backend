@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from ..models.jira_task import JiraTask
 from ..services.jira_service import JiraService
+from ..services.llm_service import classify_comment
 
 logger = logging.getLogger(__name__)
 
@@ -74,8 +75,7 @@ class WebhookService:
             if action in ["created", "edited", "deleted"]:
                 body = comment_data.get("body", "")
                 pr_id = pr_data.get("id")
-                # severity_weight defaults to 0 (suggestion) until the LLM classifier runs
-                severity_weight = 0
+                severity_weight = await classify_comment(body) if action != "deleted" else 0
                 return {
                     "status": "success",
                     "action": action,

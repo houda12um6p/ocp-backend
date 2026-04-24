@@ -1,7 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
-import uuid
 
 
 class ReviewCommentBase(BaseModel):
@@ -11,8 +10,8 @@ class ReviewCommentBase(BaseModel):
 
 
 class ReviewCommentCreate(ReviewCommentBase):
-    author_id: uuid.UUID
-    merge_request_id: uuid.UUID
+    author_id: str
+    merge_request_id: str
 
 
 class ReviewCommentUpdate(BaseModel):
@@ -21,9 +20,10 @@ class ReviewCommentUpdate(BaseModel):
 
 
 class ReviewCommentResponse(ReviewCommentBase):
-    id: uuid.UUID
-    author_id: uuid.UUID
-    merge_request_id: uuid.UUID
+    id: str
+    author_id: str
+    merge_request_id: str
     created_at: datetime
+
     class Config:
         from_attributes = True

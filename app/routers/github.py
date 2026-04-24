@@ -4,7 +4,6 @@ from typing import List, Dict, Any
 from ..core.database import get_db
 from ..services.github_service import GitHubService
 from pydantic import BaseModel
-import uuid
 
 router = APIRouter(prefix="/github", tags=["github"])
 
@@ -12,7 +11,7 @@ router = APIRouter(prefix="/github", tags=["github"])
 class SyncRequest(BaseModel):
     repo_owner: str
     repo_name: str
-    project_id: uuid.UUID
+    project_id: str
 
 
 class BranchResponse(BaseModel):

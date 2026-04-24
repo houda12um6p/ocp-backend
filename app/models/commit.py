@@ -1,5 +1,4 @@
 from sqlalchemy import Column, String, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from ..core.database import Base
 import enum
@@ -18,10 +17,9 @@ class Commit(Base):
     message = Column(String, nullable=False)
     # Fixed: was String must match users.id which is UUID
     # nullable=True + SET NULL so commits survive when a user is deleted
-    author_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
-    # Fixed: was String must match merge_requests.id which is UUID
+    author_id = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     # CASCADE so commits are removed when their MergeRequest is deleted
-    merge_request_id = Column(UUID(as_uuid=True), ForeignKey("merge_requests.id", ondelete="CASCADE"), nullable=False)
+    merge_request_id = Column(String(36), ForeignKey("merge_requests.id", ondelete="CASCADE"), nullable=False)
     date = Column(DateTime, nullable=False)
     author = relationship("User", back_populates="commits")
     merge_request = relationship("MergeRequest", back_populates="commits")

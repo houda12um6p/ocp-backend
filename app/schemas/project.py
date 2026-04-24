@@ -1,8 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
-import uuid
-
 
 class ProjectBase(BaseModel):
     name: str
@@ -21,7 +19,7 @@ class ProjectUpdate(BaseModel):
 
 
 class ProjectResponse(ProjectBase):
-    id: uuid.UUID
+    id: str
     created_at: datetime
 
     class Config:

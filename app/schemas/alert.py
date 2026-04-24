@@ -1,8 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
-import uuid
-
 
 class AlertBase(BaseModel):
     type: str
@@ -10,7 +8,7 @@ class AlertBase(BaseModel):
     message: str
     is_resolved: bool = False
 class AlertCreate(AlertBase):
-    project_id: uuid.UUID
+    project_id: str
 
 
 class AlertUpdate(BaseModel):
@@ -21,8 +19,8 @@ class AlertUpdate(BaseModel):
 
 
 class AlertResponse(AlertBase):
-    id: uuid.UUID
-    project_id: uuid.UUID
+    id: str
+    project_id: str
     created_at: datetime
 
     class Config:

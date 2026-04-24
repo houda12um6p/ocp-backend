@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import Optional
-import uuid
 
 
 class JiraTaskBase(BaseModel):
@@ -21,7 +20,7 @@ class JiraTaskUpdate(BaseModel):
     story_points: Optional[int] = None
 
 class JiraTaskResponse(JiraTaskBase):
-    id: uuid.UUID
+    id: str
     created_at: str
     updated_at: str
 

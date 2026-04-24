@@ -1,7 +1,5 @@
 from datetime import timedelta
 from typing import Any, Dict, List
-import uuid
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -18,7 +16,7 @@ router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 
 @router.get("/{project_id}/overview")
 def get_overview(
-    project_id: uuid.UUID,
+    project_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> Dict[str, Any]:
@@ -58,7 +56,7 @@ def get_overview(
 
 @router.get("/{project_id}/scores")
 def get_scores(
-    project_id: uuid.UUID,
+    project_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> List[Dict[str, Any]]:
@@ -70,7 +68,7 @@ def get_scores(
     merge_requests = db.query(MergeRequest).filter(MergeRequest.project_id == project_id).all()
 
     # Accumulate score and MR count per author
-    scores: Dict[uuid.UUID, Dict[str, Any]] = {}
+    scores: Dict[str, Dict[str, Any]] = {}
     for mr in merge_requests:
         if not mr.author_id:
             continue
@@ -91,7 +89,7 @@ def get_scores(
 
 @router.get("/{project_id}/timeline")
 def get_timeline(
-    project_id: uuid.UUID,
+    project_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> List[Dict[str, Any]]:

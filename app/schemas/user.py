@@ -7,7 +7,6 @@ except ImportError:
     EmailStr = str  # type: ignore[assignment, misc]
     
 from ..models.user import UserRole
-import uuid
 
 
 class UserBase(BaseModel):

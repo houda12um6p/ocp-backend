@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     
     github_api_url: str = "https://api.github.com"
     jira_api_url: str = "https://your-domain.atlassian.net"
+
+    openrouter_api_key: str = ""
     
     class Config:
         env_file = ".env"

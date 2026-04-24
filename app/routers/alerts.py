@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-import uuid
 
 from ..core.database import get_db
 from ..core.dependencies import get_current_user
@@ -13,7 +12,7 @@ router = APIRouter(prefix="/alerts", tags=["alerts"])
 
 @router.post("/{alert_id}/resolve", response_model=AlertResponse)
 def resolve_alert(
-    alert_id: uuid.UUID,
+    alert_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):

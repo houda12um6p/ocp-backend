@@ -4,7 +4,6 @@ from ..models.merge_request import MergeRequest
 from ..models.commit import Commit
 from ..models.user import User
 from ..core.config import settings
-import uuid
 from datetime import datetime
 
 
@@ -64,7 +63,7 @@ class GitHubService:
             }
         ]
 
-    async def sync_commits(self, repo_owner: str, repo_name: str, project_id: uuid.UUID) -> List[Commit]:
+    async def sync_commits(self, repo_owner: str, repo_name: str, project_id: str) -> List[Commit]:
         commits_data = await self.fetch_commits(repo_owner, repo_name)
         synced_commits: List[Commit] = []
 
@@ -95,7 +94,7 @@ class GitHubService:
         self.db.commit()
         return synced_commits
 
-    async def sync_pull_requests(self, repo_owner: str, repo_name: str, project_id: uuid.UUID) -> List[MergeRequest]:
+    async def sync_pull_requests(self, repo_owner: str, repo_name: str, project_id: str) -> List[MergeRequest]:
         prs_data = await self.fetch_pull_requests(repo_owner, repo_name)
         synced_prs = []
         for pr_data in prs_data:

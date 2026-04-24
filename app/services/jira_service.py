@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from typing import List, Dict, Any, Optional
 from ..models.jira_task import JiraTask
 from ..core.config import settings
-import uuid
 from datetime import datetime
 
 
@@ -87,7 +86,7 @@ class JiraService:
     def find_jira_task_by_key(self, jira_key: str) -> Optional[JiraTask]:
         return self.db.query(JiraTask).filter(JiraTask.jira_key == jira_key).first()
 
-    def link_merge_request_to_jira_task(self, merge_request_id: uuid.UUID, jira_key: str) -> bool:
+    def link_merge_request_to_jira_task(self, merge_request_id: str, jira_key: str) -> bool:
         jira_task = self.find_jira_task_by_key(jira_key)
         if not jira_task:
             return False

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(curl -s http://localhost:8000/)",
+      "Bash(curl -s -X POST http://localhost:8000/api/v1/auth/register -H 'Content-Type: application/json' -d '{\"name\": \"Test User\", \"email\": \"test@test.com\", \"role\": \"developer\", \"password\": \"password123\"}')",
+      "Bash(python3 -m json.tool)",
+      "Bash(lsof -i:8000)",
+      "Bash(pkill -9 -f uvicorn)",
+      "Bash(curl -s http://localhost:8002/health)",
+      "Bash(curl -s -w '\\\\nHTTP %{http_code}\\\\n' -X POST http://localhost:8002/api/v1/auth/register -H 'Content-Type: application/json' -d '{\"name\": \"Test User\", \"email\": \"test@test.com\", \"role\": \"developer\", \"password\": \"password123\"}')",
+      "Bash(curl -s -w '\\\\n--- HTTP %{http_code} ---\\\\n' -X POST http://localhost:8002/api/v1/auth/register -H 'Content-Type: application/json' -d '{\"name\": \"Test User\", \"email\": \"test@test.com\", \"role\": \"developer\", \"password\": \"password123\"}')",
+      "Bash(curl -s -w '\\\\n--- HTTP %{http_code} ---\\\\n' -X POST http://localhost:8002/api/v1/auth/register -H 'Content-Type: application/json' -d '{\"name\": \"Test User\", \"email\": \"fresh@test.com\", \"role\": \"developer\", \"password\": \"password123\"}')",
+      "Bash(pip install *)",
+      "Bash(venv/bin/pip install *)",
+      "Bash(venv/bin/uv init *)",
+      "Bash(venv/bin/uv run *)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(curl -s -w \"\\\\nHTTP %{http_code}\\\\n\" http://localhost:8003/health)",
+      "Bash(rm -rf /mnt/c/Users/wwwto/Desktop/S2_CI1/PA2/ocp-backend /mnt/c/Users/wwwto/Desktop/S2_CI1/PA2/ocp-frontend)",
+      "Bash(cp -r /mnt/c/Users/wwwto/Desktop/S2_CI1/PA2/OCP-Solutions-Projet-d-application/backend /mnt/c/Users/wwwto/Desktop/S2_CI1/PA2/ocp-backend)",
+      "Bash(cp -r /mnt/c/Users/wwwto/Desktop/S2_CI1/PA2/OCP-Solutions-Projet-d-application/frontend /mnt/c/Users/wwwto/Desktop/S2_CI1/PA2/ocp-frontend)"
+    ]
+  }
+}

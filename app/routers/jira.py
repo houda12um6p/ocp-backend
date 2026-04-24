@@ -4,11 +4,12 @@ from typing import List
 from ..core.database import get_db
 from ..services.jira_service import JiraService
 from pydantic import BaseModel
-import uuid
 
 router = APIRouter(prefix="/jira", tags=["jira"])
+
 class SyncRequest(BaseModel):
     project_key: str
+
 class SprintResponse(BaseModel):
     id: int
     name: str
@@ -19,7 +20,7 @@ class SprintResponse(BaseModel):
 
 
 class LinkRequest(BaseModel):
-    merge_request_id: uuid.UUID
+    merge_request_id: str
     jira_key: str
 
 

@@ -79,8 +79,8 @@ async def github_review_comment_webhook(request: Request, db: Session = Depends(
         
         if result["status"] == "success":
             return WebhookResponse(
-                status="success",
-                message=f"Processed comment - {result.get('action')} - Problem detected: {result.get('is_problem_detected')}"
+                status="processed",
+                message=f"action={result.get('action')} severity_weight={result.get('severity_weight')} comment_id={result.get('comment_id')}"
             )
         elif result["status"] == "ignored":
             return WebhookResponse(

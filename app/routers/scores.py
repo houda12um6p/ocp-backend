@@ -1,4 +1,3 @@
-import uuid
 from typing import Any, Dict
 
 from fastapi import APIRouter, Depends
@@ -18,7 +17,7 @@ router = APIRouter(prefix="/scores", tags=["scores"])
 
 @router.post("/mr/{mr_id}/calculate")
 def score_merge_request(
-    mr_id: uuid.UUID,
+    mr_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> Dict[str, Any]:
@@ -31,7 +30,7 @@ def score_merge_request(
 
 @router.post("/developer/{user_id}/calculate")
 def score_developer(
-    user_id: uuid.UUID,
+    user_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> Dict[str, Any]:
@@ -44,7 +43,7 @@ def score_developer(
 
 @router.post("/project/{project_id}/calculate")
 def score_project(
-    project_id: uuid.UUID,
+    project_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> Dict[str, Any]:
